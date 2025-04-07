@@ -1,13 +1,13 @@
 import { HttpClient } from "@microsoft/sp-http";
 import { IGeocodingResponse } from "../models/IWeatherDemoGeocodeResponse";
-import { environment } from "../../../config/environment";
 
 export class GeoCodeService {
-  private readonly apiKey: string = environment.weatherApiKey;
+  private readonly apiKey: string;
   private readonly getCoordinatesUrl: string =
-    "http://api.openweathermap.org/geo/1.0";
+    "https://api.openweathermap.org/geo/1.0";
 
   constructor(private httpClient: HttpClient) {
+    this.apiKey = process.env.SPFX_WEATHER_API_KEY || "";
     console.log(
       "GeoCodeService initialized with API Key:",
       this.apiKey ? "Present" : "Missing"
