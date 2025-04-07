@@ -2,7 +2,7 @@ import * as React from "react";
 import styles from "./WeatherDemoWp.module.scss";
 import type { IWeatherDemoWpProps } from "./IWeatherDemoWpProps";
 import { GeoCodeService } from "../services/GeoCodeService";
-import { IGeocodingResponse } from "../models/IWeatherDemoGeocodeResponse";
+import { IGeocodingResponse } from "../models/IGeocodeResponse";
 import CityPicker from "./CityPicker";
 // import { escape } from '@microsoft/sp-lodash-subset';
 

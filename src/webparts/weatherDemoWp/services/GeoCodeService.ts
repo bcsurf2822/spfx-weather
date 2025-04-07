@@ -1,5 +1,5 @@
 import { HttpClient } from "@microsoft/sp-http";
-import { IGeocodingResponse } from "../models/IWeatherDemoGeocodeResponse";
+import { IGeocodingResponse } from "../models/IGeocodeResponse";
 
 export class GeoCodeService {
   private readonly apiKey: string;
