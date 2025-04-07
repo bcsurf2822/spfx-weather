@@ -13,6 +13,7 @@ export default class WeatherDemoWp extends React.Component<IWeatherDemoWpProps> 
 
   constructor(props: IWeatherDemoWpProps) {
     super(props);
+    console.log("WeatherDemoWp component initialized with props:", props);
     this.geoCodeService = new GeoCodeService(props.httpClient);
     this.state = {
       geocodingData: [],
@@ -20,12 +21,14 @@ export default class WeatherDemoWp extends React.Component<IWeatherDemoWpProps> 
   }
 
   public async componentDidMount(): Promise<void> {
+    console.log("WeatherDemoWp component mounted, fetching geocoding data...");
     try {
       const data = await this.geoCodeService.getCoordinates(
         "marmora",
         "nj",
         "us"
       );
+      console.log("Geocoding data received:", data);
       this.setState({ geocodingData: data });
     } catch (error) {
       console.error("Error fetching geocoding data:", error);
