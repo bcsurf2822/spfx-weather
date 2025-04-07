@@ -13,6 +13,7 @@ import { IWeatherDemoWpProps } from "./components/IWeatherDemoWpProps";
 
 export interface IWeatherDemoWpWebPartProps {
   description: string;
+  locationListId: string;
 }
 
 export default class WeatherDemoWpWebPart extends BaseClientSideWebPart<IWeatherDemoWpWebPartProps> {
@@ -21,6 +22,8 @@ export default class WeatherDemoWpWebPart extends BaseClientSideWebPart<IWeather
       React.createElement(WeatherDemoWp, {
         description: this.properties.description,
         httpClient: this.context.httpClient,
+        context: this.context,
+        locationListId: this.properties.locationListId || "Locations",
       });
 
     ReactDom.render(element, this.domElement);
@@ -47,6 +50,10 @@ export default class WeatherDemoWpWebPart extends BaseClientSideWebPart<IWeather
               groupFields: [
                 PropertyPaneTextField("description", {
                   label: strings.DescriptionFieldLabel,
+                }),
+                PropertyPaneTextField("locationListId", {
+                  label: "Location List ID",
+                  value: "Locations",
                 }),
               ],
             },

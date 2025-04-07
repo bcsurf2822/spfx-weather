@@ -3,13 +3,20 @@ import styles from "./WeatherDemoWp.module.scss";
 import type { IWeatherDemoWpProps } from "./IWeatherDemoWpProps";
 import { GeoCodeService } from "../services/GeoCodeService";
 import { IGeocodingResponse } from "../models/IWeatherDemoGeocodeResponse";
+import CityPicker from "./CityPicker";
 // import { escape } from '@microsoft/sp-lodash-subset';
 
-export default class WeatherDemoWp extends React.Component<IWeatherDemoWpProps> {
+interface IWeatherDemoWpState {
+  geocodingData: IGeocodingResponse[];
+  selectedCity: string | null;
+  selectedState: string | null;
+}
+
+export default class WeatherDemoWp extends React.Component<
+  IWeatherDemoWpProps,
+  IWeatherDemoWpState
+> {
   private geoCodeService: GeoCodeService;
-  public state: {
-    geocodingData: IGeocodingResponse[];
-  };
 
   constructor(props: IWeatherDemoWpProps) {
     super(props);
@@ -17,15 +24,24 @@ export default class WeatherDemoWp extends React.Component<IWeatherDemoWpProps> 
     this.geoCodeService = new GeoCodeService(props.httpClient);
     this.state = {
       geocodingData: [],
+      selectedCity: null,
+      selectedState: null,
     };
   }
 
-  public async componentDidMount(): Promise<void> {
-    console.log("WeatherDemoWp component mounted, fetching geocoding data...");
+  private handleLocationSelected = async (
+    city: string,
+    state: string
+  ): Promise<void> => {
+    const lowerCity = city.toLowerCase();
+    const lowerState = state.toLowerCase();
+
+    this.setState({ selectedCity: lowerCity, selectedState: lowerState });
+
     try {
       const data = await this.geoCodeService.getCoordinates(
-        "marmora",
-        "nj",
+        lowerCity,
+        lowerState,
         "us"
       );
       console.log("Geocoding data received:", data);
@@ -33,21 +49,28 @@ export default class WeatherDemoWp extends React.Component<IWeatherDemoWpProps> 
     } catch (error) {
       console.error("Error fetching geocoding data:", error);
     }
-  }
+  };
 
   public render(): React.ReactElement<IWeatherDemoWpProps> {
-    const { geocodingData } = this.state;
+    const { geocodingData, selectedCity, selectedState } = this.state;
 
     return (
       <section className={`${styles.weatherDemoWp}`}>
         <h1>Weather Demo Web Part</h1>
-        {geocodingData.length > 0 ? (
+        <CityPicker
+          onCitySelected={this.handleLocationSelected}
+          context={this.props.context}
+          locationListId={this.props.locationListId}
+        />
+        {geocodingData.length > 0 && selectedCity && selectedState ? (
           <div>
-            <h2>Geocoding Data for Marmora, NJ</h2>
+            <h2>
+              Geocoding Data for {selectedCity}, {selectedState}
+            </h2>
             <pre>{JSON.stringify(geocodingData[0], null, 2)}</pre>
           </div>
         ) : (
-          <p>Loading geocoding data...</p>
+          <p>Select a location to view weather data...</p>
         )}
       </section>
     );
