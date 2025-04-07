@@ -4,12 +4,11 @@ import type { IWeatherDemoWpProps } from "./IWeatherDemoWpProps";
 import { GeoCodeService } from "../services/GeoCodeService";
 import { IGeocodingResponse } from "../models/IGeocodeResponse";
 import CityPicker from "./CityPicker";
-// import { escape } from '@microsoft/sp-lodash-subset';
 
 interface IWeatherDemoWpState {
   geocodingData: IGeocodingResponse[];
-  selectedCity: string | null;
-  selectedState: string | null;
+  selectedCity: string | undefined;
+  selectedState: string | undefined;
 }
 
 export default class WeatherDemoWp extends React.Component<
@@ -24,8 +23,8 @@ export default class WeatherDemoWp extends React.Component<
     this.geoCodeService = new GeoCodeService(props.httpClient);
     this.state = {
       geocodingData: [],
-      selectedCity: null,
-      selectedState: null,
+      selectedCity: undefined,
+      selectedState: undefined,
     };
   }
 
@@ -55,12 +54,11 @@ export default class WeatherDemoWp extends React.Component<
     const { geocodingData, selectedCity, selectedState } = this.state;
 
     return (
-      <section className={`${styles.weatherDemoWp}`}>
+      <section className={styles.weatherDemoWp}>
         <h1>Weather Demo Web Part</h1>
         <CityPicker
+          sp={this.props.sp}
           onCitySelected={this.handleLocationSelected}
-          context={this.props.context}
-          locationListId={this.props.locationListId}
         />
         {geocodingData.length > 0 && selectedCity && selectedState ? (
           <div>

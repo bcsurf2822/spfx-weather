@@ -10,6 +10,7 @@ import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import * as strings from "WeatherDemoWpWebPartStrings";
 import WeatherDemoWp from "./components/WeatherDemoWp";
 import { IWeatherDemoWpProps } from "./components/IWeatherDemoWpProps";
+import { getSP } from "./services/sp";
 
 export interface IWeatherDemoWpWebPartProps {
   description: string;
@@ -17,12 +18,17 @@ export interface IWeatherDemoWpWebPartProps {
 }
 
 export default class WeatherDemoWpWebPart extends BaseClientSideWebPart<IWeatherDemoWpWebPartProps> {
+  public async onInit(): Promise<void> {
+    await super.onInit();
+    getSP(this.context);
+  }
+
   public render(): void {
     const element: React.ReactElement<IWeatherDemoWpProps> =
       React.createElement(WeatherDemoWp, {
         description: this.properties.description,
         httpClient: this.context.httpClient,
-        context: this.context,
+        sp: getSP(this.context),
         locationListId: this.properties.locationListId || "Locations",
       });
 

@@ -1,7 +1,6 @@
-import { WebPartContext } from "@microsoft/sp-webpart-base";
+import { SPFI } from "@pnp/sp";
 
 export interface ICityPickerProps {
   onCitySelected: (city: string, state: string) => void;
-  context: WebPartContext;
-  locationListId: string;
+  sp: SPFI;
 }

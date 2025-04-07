@@ -1,6 +1,8 @@
 import * as React from "react";
 import { ICityPickerProps } from "./ICityPickerProps";
-import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
+import "@pnp/sp/webs";
+import "@pnp/sp/lists";
+import "@pnp/sp/items";
 
 interface ILocation {
   Id: number;
@@ -12,8 +14,8 @@ interface ILocation {
 interface IState {
   locations: ILocation[];
   loading: boolean;
-  error: string | null;
-  selectedLocation: ILocation | null;
+  error: string | undefined;
+  selectedLocation: ILocation | undefined;
 }
 
 export default class CityPicker extends React.Component<
@@ -25,31 +27,27 @@ export default class CityPicker extends React.Component<
     this.state = {
       locations: [],
       loading: true,
-      error: null,
-      selectedLocation: null,
+      error: undefined,
+      selectedLocation: undefined,
     };
   }
 
   public async componentDidMount(): Promise<void> {
     try {
-      const response: SPHttpClientResponse =
-        await this.props.context.spHttpClient.get(
-          `${this.props.context.pageContext.web.absoluteUrl}/_api/web/lists/getbytitle('Locations')/items?$select=Id,Title,State,City`,
-          SPHttpClient.configurations.v1
-        );
+      const items = await this.props.sp.web.lists
+        .getByTitle("Locations")
+        .items.select("Id", "Title", "State", "City")();
 
-      if (!response.ok) {
-        throw new Error(`Error fetching locations: ${response.statusText}`);
-      }
+      console.log("✅ Locations fetched:", items);
 
-      const data = await response.json();
       this.setState({
-        locations: data.value,
+        locations: items,
         loading: false,
       });
-    } catch (error) {
+    } catch (error: unknown) {
+      console.error("❌ Error fetching locations:", error);
       this.setState({
-        error: error.message,
+        error: error instanceof Error ? error.message : String(error),
         loading: false,
       });
     }
@@ -60,7 +58,7 @@ export default class CityPicker extends React.Component<
   ): void => {
     const selectedId = parseInt(event.target.value);
     const selectedLocation =
-      this.state.locations.find((loc) => loc.Id === selectedId) || null;
+      this.state.locations.find((loc) => loc.Id === selectedId) || undefined;
 
     this.setState({ selectedLocation });
     if (selectedLocation) {

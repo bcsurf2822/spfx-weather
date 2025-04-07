@@ -1,8 +1,8 @@
 import { HttpClient } from "@microsoft/sp-http";
-
+import { SPFI } from "@pnp/sp";
 export interface IWeatherDemoWpProps {
   description: string;
   httpClient: HttpClient;
-  context: any;
+  sp: SPFI;
   locationListId: string;
 }
