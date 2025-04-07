@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "weather-webpart-client-side-solution",
+    "id": "63b2917f-06f4-4452-8ea6-98d8ca38f725",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.20.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "weather-webpart description"
+      },
+      "longDescription": {
+        "default": "weather-webpart description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "weather-webpart Feature",
+        "description": "The feature that activates elements of the weather-webpart solution.",
+        "id": "044cd8f8-6375-49ea-be23-6ecc0a0c6a45",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/weather-webpart.sppkg"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "18.20.8",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.24.0"
+    },
+    "version": "1.20.0",
+    "libraryName": "weather-webpart",
+    "libraryId": "63b2917f-06f4-4452-8ea6-98d8ca38f725",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "weather-webpart",
+    "solutionShortDescription": "weather-webpart description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
