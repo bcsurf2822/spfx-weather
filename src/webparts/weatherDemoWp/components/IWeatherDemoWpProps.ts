@@ -6,3 +6,5 @@ export interface IWeatherDemoWpProps {
   sp: SPFI;
   locationListId: string;
 }
+
+//does it work
