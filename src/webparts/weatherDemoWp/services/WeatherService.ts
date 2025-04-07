@@ -14,12 +14,8 @@ export class WeatherService {
     );
   }
 
-  public async getWeather(
-    cityName: string,
-    stateCode: string,
-    countryCode: string
-  ): Promise<IWeatherResponse[]> {
-    const url = `${this.getWeatherUrl}?q=${cityName},${stateCode},${countryCode}&appid=${this.apiKey}`;
+  public async getWeather(lat: number, lon: number): Promise<IWeatherResponse> {
+    const url = `${this.getWeatherUrl}?lat=${lat}&lon=${lon}&units=imperial&appid=${this.apiKey}`;
     console.log("Making request to URL:", url);
     const response = await this.httpClient.get(
       url,
