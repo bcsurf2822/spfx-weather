@@ -9,7 +9,7 @@ import CityPicker from "./CityPicker";
 
 interface IWeatherDemoWpState {
   geocodingData: IGeocodingResponse[];
-  weatherData: IWeatherResponse | null;
+  weatherData: IWeatherResponse | undefined;
   selectedCity: string | undefined;
   selectedState: string | undefined;
 }
@@ -28,7 +28,7 @@ export default class WeatherDemoWp extends React.Component<
     this.weatherService = new WeatherService(props.httpClient);
     this.state = {
       geocodingData: [],
-      weatherData: null,
+      weatherData: undefined,
       selectedCity: undefined,
       selectedState: undefined,
     };
