@@ -1,5 +1,6 @@
 import * as React from "react";
 import { ICityPickerProps } from "./ICityPickerProps";
+import { ComboBoxListItemPicker } from "@pnp/spfx-controls-react/lib/ListItemPicker";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/items";
@@ -38,14 +39,14 @@ export default class CityPicker extends React.Component<
         .getByTitle("Locations")
         .items.select("Id", "Title", "State", "City")();
 
-      console.log("✅ Locations fetched:", items);
+      console.log(" Locations :", items);
 
       this.setState({
         locations: items,
         loading: false,
       });
     } catch (error: unknown) {
-      console.error("❌ Error fetching locations:", error);
+      console.error("Location Error:", error);
       this.setState({
         error: error instanceof Error ? error.message : String(error),
         loading: false,
@@ -84,7 +85,7 @@ export default class CityPicker extends React.Component<
           <option value="">Select a location</option>
           {locations.map((location) => (
             <option key={location.Id} value={location.Id}>
-              {location.Title}
+              {location.City}, {location.State}
             </option>
           ))}
         </select>
